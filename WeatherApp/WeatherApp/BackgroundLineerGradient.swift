@@ -11,7 +11,7 @@ struct BackgroundLineerGradient: View {
     var body: some View {
         LinearGradient(
             colors: [
-                Color.purple.opacity(0.2),
+                Color.purple.opacity(0.4),
                 Color.purple
             ],
             startPoint: .top,
@@ -21,6 +21,4 @@ struct BackgroundLineerGradient: View {
     }
 }
 
-#Preview {
-    BackgroundLineerGradient()
-}
+
