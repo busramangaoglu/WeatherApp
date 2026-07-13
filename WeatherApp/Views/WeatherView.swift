@@ -12,6 +12,7 @@ struct WeatherView: View {
     )
 
     var body: some View {
+        NavigationStack {
         ZStack {
             BackgroundLineerGradient(startPoint: .bottom, endPoint: .top)
 
@@ -29,7 +30,8 @@ struct WeatherView: View {
             .padding(.top, 32)
         }
     }
-
+}
+    
     @ViewBuilder
     private func weatherContent(for weather: WeatherModel) -> some View {
         VStack(spacing: 8) {
@@ -72,9 +74,19 @@ struct WeatherView: View {
 
             Spacer()
 
-            Text(AppStrings.Forecast.details)
-                .font(.system(size: 18, weight: .regular))
-                .foregroundStyle(.white.opacity(0.7))
+            NavigationLink {
+                HourlyForecastView()
+            } label: {
+                NavigationLink {
+                    HourlyForecastView()
+                } label: {
+                    Text(AppStrings.Forecast.details)
+                        .font(.system(size: 18, weight: .regular))
+                        .foregroundStyle(.white.opacity(0.7))
+                }
+                .buttonStyle(.plain)
+            }
+            .buttonStyle(.plain)
         }
         .padding(.horizontal, 24)
     }
