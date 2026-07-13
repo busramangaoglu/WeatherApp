@@ -19,5 +19,8 @@ enum AppStrings {
         static let condition = "Mostly Sunny"
         static let highPrefix = "H:"
         static let lowPrefix = "L:"
+        
+        static let currently = "CURRENTLY"
+        static let currentCondition = "Mostly Clear"
     }
 }

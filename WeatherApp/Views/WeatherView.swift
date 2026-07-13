@@ -11,62 +11,9 @@ struct WeatherView: View {
         lowTemp: 18,
     )
 
-    private let hourlyWeatherList: [HourlyWeatherModel] = [
-        HourlyWeatherModel(
-            time: "Now",
-            type: .sunny,
-            temperature: 24
-        ),
-        HourlyWeatherModel(
-            time: "1PM",
-            type: .sunny,
-            temperature: 25
-        ),
-        HourlyWeatherModel(
-            time: "2PM",
-            type: .sunny,
-            temperature: 26
-        ),
-        HourlyWeatherModel(
-            time: "3PM",
-            type: .partlyCloudy,
-            temperature: 26
-        ),
-        HourlyWeatherModel(
-            time: "4PM",
-            type: .partlyCloudy,
-            temperature: 25
-        ),
-        HourlyWeatherModel(
-            time: "5PM",
-            type: .cloudy,
-            temperature: 24
-        ),
-        HourlyWeatherModel(
-            time: "6PM",
-            type: .cloudy,
-            temperature: 23
-        ),
-        HourlyWeatherModel(
-            time: "7PM",
-            type: .partlyCloudy,
-            temperature: 22
-        ),
-        HourlyWeatherModel(
-            time: "8PM",
-            type: .moonStars,
-            temperature: 21
-        ),
-        HourlyWeatherModel(
-            time: "9PM",
-            type: .moon,
-            temperature: 20
-        )
-    ]
-
     var body: some View {
         ZStack {
-            BackgroundLineerGradient()
+            BackgroundLineerGradient(startPoint: .bottom, endPoint: .top)
 
             VStack(spacing: 0) {
                 weatherContent(for: weather)
@@ -136,7 +83,7 @@ struct WeatherView: View {
     private func hourlyForecastList() -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 16) {
-                ForEach(hourlyWeatherList) { hourlyWeather in
+                ForEach(WeatherData.hourlyWeatherList) { hourlyWeather in
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.white.opacity(0.2))
                         .frame(width: 100, height: 160)

@@ -37,5 +37,19 @@ enum WeatherType {
             return "moon.stars.fill"
         }
     }
+    
+    var name: String {
+        switch self {
+        case .sunny:
+            return "Sunny"
+        case .partlyCloudy:
+            return "Partly Cloudy"
+        case .cloudy:
+            return "Cloudy"
+        case .moon:
+            return "Moon"
+        case .moonStars:
+            return "Moon Stars"
+        }
+    }
 }
-
