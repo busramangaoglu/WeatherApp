@@ -45,6 +45,21 @@
 			path = WeatherAppUITests;
 			sourceTree = "<group>";
 		};
+		96B328E03004B29800972A15 /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		96B328E73004B37700972A15 /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		96B328EC3004C20A00972A15 /* Enum */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Enum;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,10 +90,13 @@
 		969E7F6A3000E3B700A15BCF = {
 			isa = PBXGroup;
 			children = (
+				96B328EC3004C20A00972A15 /* Enum */,
 				969E7F753000E3B700A15BCF /* WeatherApp */,
 				969E7F833000E3B800A15BCF /* WeatherAppTests */,
 				969E7F8D3000E3B800A15BCF /* WeatherAppUITests */,
 				969E7F743000E3B700A15BCF /* Products */,
+				96B328E03004B29800972A15 /* Models */,
+				96B328E73004B37700972A15 /* Views */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +127,9 @@
 			);
 			fileSystemSynchronizedGroups = (
 				969E7F753000E3B700A15BCF /* WeatherApp */,
+				96B328E03004B29800972A15 /* Models */,
+				96B328E73004B37700972A15 /* Views */,
+				96B328EC3004C20A00972A15 /* Enum */,
 			);
 			name = WeatherApp;
 			packageProductDependencies = (
