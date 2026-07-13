@@ -12,4 +12,5 @@ struct HourlyWeatherModel: Identifiable {
     let time: String
     let type: WeatherType
     let temperature: Int
+    let precipitation: Double?
 }
