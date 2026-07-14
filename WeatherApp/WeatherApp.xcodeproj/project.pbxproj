@@ -30,6 +30,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		966B2A8230062320001F2820 /* TabView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TabView;
+			sourceTree = "<group>";
+		};
 		969E7F753000E3B700A15BCF /* WeatherApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = WeatherApp;
@@ -90,6 +95,7 @@
 		969E7F6A3000E3B700A15BCF = {
 			isa = PBXGroup;
 			children = (
+				966B2A8230062320001F2820 /* TabView */,
 				96B328EC3004C20A00972A15 /* Enum */,
 				969E7F753000E3B700A15BCF /* WeatherApp */,
 				969E7F833000E3B800A15BCF /* WeatherAppTests */,
@@ -126,6 +132,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				966B2A8230062320001F2820 /* TabView */,
 				969E7F753000E3B700A15BCF /* WeatherApp */,
 				96B328E03004B29800972A15 /* Models */,
 				96B328E73004B37700972A15 /* Views */,
