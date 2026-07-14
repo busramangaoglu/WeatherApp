@@ -77,14 +77,9 @@ struct WeatherView: View {
             NavigationLink {
                 HourlyForecastView()
             } label: {
-                NavigationLink {
-                    HourlyForecastView()
-                } label: {
                     Text(AppStrings.Forecast.details)
                         .font(.system(size: 18, weight: .regular))
                         .foregroundStyle(.white.opacity(0.7))
-                }
-                .buttonStyle(.plain)
             }
             .buttonStyle(.plain)
         }
