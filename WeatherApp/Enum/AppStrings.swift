@@ -22,5 +22,6 @@ enum AppStrings {
         
         static let currently = "CURRENTLY"
         static let currentCondition = "Mostly Clear"
+        static let hourlyTitle = "Hourly Forecast"
     }
 }
