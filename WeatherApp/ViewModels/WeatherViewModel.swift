@@ -62,7 +62,7 @@ private func createHourlyWeatherList(
         from: Date()
     )
 
-    let endIndex = min(currentHour + 10, times.count)
+    let endIndex = min(currentHour + Constants.minEndIndex, times.count)
 
     guard currentHour < endIndex else {
         return []
@@ -126,4 +126,8 @@ private func weatherType(
     default:
         return .cloudy
     }
+}
+
+private enum Constants {
+    static let minEndIndex = 10
 }

@@ -24,4 +24,16 @@ enum AppStrings {
         static let currentCondition = "Mostly Clear"
         static let hourlyTitle = "Hourly Forecast"
     }
+    
+    enum Search {
+        static let matchingCities = "MATCHING CITIES"
+        static let searchCity = "Search City"
+    }
+    
+    enum errorMessages {
+        static let locationPermissionNotGranted = "Location permission not granted."
+        static let unknownPermissionStatus = "Unknown location permission status."
+        static let unknownCity = "Unknown city"
+    }
+    
 }

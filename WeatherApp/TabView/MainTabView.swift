@@ -13,12 +13,12 @@ struct MainTabView: View {
         TabView {
             WeatherView()
                 .tabItem {
-                    Image(systemName: "cloud.fill")
+                    Image(systemName: AppImages.TabBar.cloudFill)
                         
                 }
             CitySearchView()
                 .tabItem {
-                    Image(systemName: "magnifyingglass")
+                    Image(systemName: AppImages.TabBar.magnifyingglass)
                 }
         }
         .accentColor(Color(.purple))
