@@ -2,6 +2,8 @@ import SwiftUI
 
 struct HourlyForecastView: View {
     
+    @ObservedObject var viewModel: WeatherViewModel
+    
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -73,16 +75,17 @@ struct HourlyForecastView: View {
                             .font(.system(size: 60))
                             .foregroundStyle(.white)
                         
-                        Text("24°")
+                        Text("\(currentTemperature)°")
                             .font(.system(size: 72, weight: .regular))
                             .foregroundStyle(.white)
                     }
                     
                     HStack(spacing: 6) {
-                        Text(AppStrings.Forecast.currentCondition)
-                        Text("•")
-                        Text("H: 26°")
-                        Text("L: 18°")
+                        Text(
+                            "\(AppStrings.Forecast.currentCondition) • " +
+                            "\(AppStrings.Forecast.highPrefix)\(maximumTemperature)° " +
+                            "\(AppStrings.Forecast.lowPrefix)\(minimumTemperature)°"
+                        )
                     }
                     .font(.system(size: 20, weight: .regular))
                     .foregroundStyle(.white.opacity(0.9))
@@ -97,7 +100,7 @@ struct HourlyForecastView: View {
     @ViewBuilder
     private func hourlyForecastList() -> some View {
         LazyVStack(spacing: 12) {
-            ForEach(WeatherData.hourlyWeatherList) { hourlyWeather in
+            ForEach(viewModel.hourlyWeatherList) { hourlyWeather in
                 hourlyForecastRow(for: hourlyWeather)
             }
         }
@@ -147,10 +150,41 @@ struct HourlyForecastView: View {
                     .stroke(.white.opacity(0.3), lineWidth: 1)
             }
     }
+    
+    private var currentTemperature: Int {
+        Int(
+            viewModel.weatherResponse?
+                .current
+                .temperature
+                .rounded() ?? 0
+        )
+    }
+
+    private var maximumTemperature: Int {
+        Int(
+            viewModel.weatherResponse?
+                .daily
+                .maximumTemperatures
+                .first?
+                .rounded() ?? 0
+        )
+    }
+
+    private var minimumTemperature: Int {
+        Int(
+            viewModel.weatherResponse?
+                .daily
+                .minimumTemperatures
+                .first?
+                .rounded() ?? 0
+        )
+    }
 }
 
 #Preview {
     NavigationStack {
-        HourlyForecastView()
+        HourlyForecastView(
+            viewModel: WeatherViewModel()
+        )
     }
 }
