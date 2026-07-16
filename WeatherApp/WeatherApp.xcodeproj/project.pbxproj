@@ -29,14 +29,42 @@
 		969E7F8A3000E3B800A15BCF /* WeatherAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		966B2AB33008AA56001F2820 /* Exceptions for "WeatherApp" folder in "WeatherApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 969E7F723000E3B700A15BCF /* WeatherApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		966B2A8230062320001F2820 /* TabView */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = TabView;
 			sourceTree = "<group>";
 		};
+		966B2AA53006685B001F2820 /* Network */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Network;
+			sourceTree = "<group>";
+		};
+		966B2AAC30066BFB001F2820 /* ViewModels */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		966B2AAF3008A99F001F2820 /* Location */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Location;
+			sourceTree = "<group>";
+		};
 		969E7F753000E3B700A15BCF /* WeatherApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				966B2AB33008AA56001F2820 /* Exceptions for "WeatherApp" folder in "WeatherApp" target */,
+			);
 			path = WeatherApp;
 			sourceTree = "<group>";
 		};
@@ -95,6 +123,9 @@
 		969E7F6A3000E3B700A15BCF = {
 			isa = PBXGroup;
 			children = (
+				966B2AAF3008A99F001F2820 /* Location */,
+				966B2AAC30066BFB001F2820 /* ViewModels */,
+				966B2AA53006685B001F2820 /* Network */,
 				966B2A8230062320001F2820 /* TabView */,
 				96B328EC3004C20A00972A15 /* Enum */,
 				969E7F753000E3B700A15BCF /* WeatherApp */,
@@ -133,6 +164,9 @@
 			);
 			fileSystemSynchronizedGroups = (
 				966B2A8230062320001F2820 /* TabView */,
+				966B2AA53006685B001F2820 /* Network */,
+				966B2AAC30066BFB001F2820 /* ViewModels */,
+				966B2AAF3008A99F001F2820 /* Location */,
 				969E7F753000E3B700A15BCF /* WeatherApp */,
 				96B328E03004B29800972A15 /* Models */,
 				96B328E73004B37700972A15 /* Views */,
@@ -428,6 +462,9 @@
 				DEVELOPMENT_TEAM = 5HAX4J5996;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Bulunduğunuz konumun hava durumunu gösterebilmek için konum bilginize ihtiyaç duyuyoruz.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -460,6 +497,9 @@
 				DEVELOPMENT_TEAM = 5HAX4J5996;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Bulunduğunuz konumun hava durumunu gösterebilmek için konum bilginize ihtiyaç duyuyoruz.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
