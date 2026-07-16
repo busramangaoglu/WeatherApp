@@ -30,10 +30,10 @@ final class LocationManager: NSObject, ObservableObject {
             locationManager.requestLocation()
 
         case .denied, .restricted:
-            errorMessage = "Konum izni verilmedi."
+            errorMessage = AppStrings.errorMessages.locationPermissionNotGranted
 
         @unknown default:
-            errorMessage = "Bilinmeyen konum izni durumu."
+            errorMessage = AppStrings.errorMessages.unknownPermissionStatus
         }
     }
 }
@@ -51,13 +51,13 @@ extension LocationManager: CLLocationManagerDelegate {
             manager.requestLocation()
 
         case .denied, .restricted:
-            errorMessage = "Konum izni verilmedi."
+            errorMessage = AppStrings.errorMessages.locationPermissionNotGranted
 
         case .notDetermined:
             break
 
         @unknown default:
-            errorMessage = "Bilinmeyen konum izni durumu."
+            errorMessage = AppStrings.errorMessages.unknownPermissionStatus
         }
     }
 
@@ -85,7 +85,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 return
             }
 
-            self.cityName = placemark.locality ?? "Bilinmeyen Şehir"
+            self.cityName = placemark.locality ?? AppStrings.errorMessages.unknownCity
 
             print("Şehir:", self.cityName)
         }
