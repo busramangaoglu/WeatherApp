@@ -49,7 +49,9 @@ final class WeatherService {
         }
 
         guard 200...299 ~= httpResponse.statusCode else {
-            throw NetworkError.invalidStatusCode
+            throw NetworkError.invalidStatusCode(
+                httpResponse.statusCode
+            )
         }
 
         do {

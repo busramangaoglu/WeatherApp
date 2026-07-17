@@ -1,19 +1,11 @@
 import SwiftUI
+import CoreLocation
 
 struct CitySearchView: View {
-
-    @State private var searchText = ""
-
-    private var filteredCities: [CityModel] {
-        if searchText.isEmpty {
-            return CityData.cityList
-        }
-
-        return CityData.cityList.filter { city in
-            city.city.localizedCaseInsensitiveContains(searchText) ||
-            city.country.localizedCaseInsensitiveContains(searchText)
-        }
-    }
+    
+    @StateObject private var viewModel = CitySearchViewModel()
+    @StateObject private var locationManager = LocationManager()
+    
 
     var body: some View {
         NavigationStack {
@@ -32,7 +24,9 @@ struct CitySearchView: View {
                             )
                         )
                         .foregroundStyle(
-                            .white.opacity(Constants.matchingCitiesOpacity)
+                            .white.opacity(
+                                Constants.matchingCitiesOpacity
+                            )
                         )
                         .frame(
                             maxWidth: .infinity,
@@ -47,93 +41,198 @@ struct CitySearchView: View {
                             Constants.matchingCitiesTopPadding
                         )
 
-                    ScrollView {
-                        LazyVStack(
-                            spacing: Constants.cityListSpacing
-                        ) {
-                            ForEach(filteredCities) { city in
-                                cityCard(for: city)
-                            }
-                        }
-                        .padding(
-                            .horizontal,
-                            Constants.cityListHorizontalPadding
-                        )
-                        .padding(
-                            .top,
-                            Constants.cityListTopPadding
-                        )
-                        .padding(
-                            .bottom,
-                            Constants.cityListBottomPadding
-                        )
-                        .searchable(
-                            text: $searchText,
-                            placement: .navigationBarDrawer(
-                                displayMode: .always
-                            ),
-                            prompt: AppStrings.Search.searchCity
-                        )
-                    }
+                    cityListContent()
                 }
                 .padding(
                     .top,
                     Constants.contentTopPadding
                 )
+                .searchable(
+                    text: $viewModel.searchText,
+                    placement: .navigationBarDrawer(
+                        displayMode: .always
+                    ),
+                    prompt: AppStrings.Search.searchCity
+                )
             }
         }
+        .task(id: viewModel.searchText) {
+            let query = viewModel.searchText.trimmingCharacters(
+                in: .whitespacesAndNewlines
+            )
+
+            if query.isEmpty {
+                guard let location = locationManager.location else {
+                    return
+                }
+
+                await viewModel.fetchNearbyCities(
+                    latitude: location.coordinate.latitude,
+                    longitude: location.coordinate.longitude
+                )
+
+                return
+            }
+
+            do {
+                try await Task.sleep(
+                    for: .milliseconds(500)
+                )
+            } catch {
+                return
+            }
+
+            await viewModel.searchCities(
+                query: query
+            )
+        }
     }
 
+    // MARK: - City List Content
+
     @ViewBuilder
-    private func searchBar() -> some View {
-        HStack(
-            spacing: Constants.searchBarContentSpacing
+    private func cityListContent() -> some View {
+        if viewModel.isLoading {
+            loadingView()
+        } else if let errorMessage = viewModel.errorMessage {
+            errorView(message: errorMessage)
+        } else if viewModel.cities.isEmpty {
+            emptyView()
+        } else {
+            cityList()
+        }
+    }
+
+    // MARK: - Loading View
+
+    @ViewBuilder
+    private func loadingView() -> some View {
+        Spacer()
+
+        ProgressView()
+            .tint(.white)
+            .scaleEffect(Constants.progressViewScale)
+
+        Spacer()
+    }
+
+    // MARK: - Error View
+
+    @ViewBuilder
+    private func errorView(message: String) -> some View {
+        Spacer()
+
+        VStack(
+            spacing: Constants.errorViewSpacing
         ) {
             Image(
-                systemName: AppImages.Search.magnifyingGlass
+                systemName: "exclamationmark.triangle.fill"
             )
             .font(
-                .system(size: Constants.searchIconSize)
+                .system(size: Constants.errorIconSize)
             )
-            .foregroundStyle(.gray)
+            .foregroundStyle(.white)
 
-            TextField(
-                AppStrings.Search.searchCity,
-                text: $searchText
-            )
-            .font(
-                .system(size: Constants.searchTextFontSize)
-            )
-            .foregroundStyle(.black)
+            Text(message)
+                .font(
+                    .system(size: Constants.errorTextFontSize)
+                )
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+
+            Button {
+                Task {
+                    await viewModel.fetchNearbyCities(
+                        latitude: 36.9081,
+                        longitude: 30.6956
+                    )
+                }
+            } label: {
+                Text("Tekrar Dene")
+                    .font(
+                        .system(
+                            size: Constants.retryButtonFontSize,
+                            weight: .semibold
+                        )
+                    )
+                    .foregroundStyle(.purple)
+                    .padding(
+                        .horizontal,
+                        Constants.retryButtonHorizontalPadding
+                    )
+                    .frame(
+                        height: Constants.retryButtonHeight
+                    )
+                    .background(.white)
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius:
+                                Constants.retryButtonCornerRadius
+                        )
+                    )
+            }
         }
         .padding(
             .horizontal,
-            Constants.searchBarInnerHorizontalPadding
+            Constants.errorViewHorizontalPadding
         )
-        .frame(
-            height: Constants.searchBarHeight
-        )
-        .background(
-            .white.opacity(Constants.searchBarBackgroundOpacity)
-        )
-        .clipShape(
-            RoundedRectangle(
-                cornerRadius: Constants.searchBarCornerRadius
-            )
-        )
-        .padding(
-            .horizontal,
-            Constants.searchBarOuterHorizontalPadding
-        )
+
+        Spacer()
     }
 
+    // MARK: - Empty View
+
     @ViewBuilder
-    private func cityCard(for city: CityModel) -> some View {
+    private func emptyView() -> some View {
+        Spacer()
+
+        Text("Şehir bulunamadı.")
+            .font(
+                .system(size: Constants.emptyTextFontSize)
+            )
+            .foregroundStyle(.white.opacity(0.8))
+
+        Spacer()
+    }
+
+    // MARK: - City List
+
+    @ViewBuilder
+    private func cityList() -> some View {
+        ScrollView {
+            LazyVStack(
+                spacing: Constants.cityListSpacing
+            ) {
+                ForEach(viewModel.cities) { city in
+                    cityCard(for: city)
+                }
+            }
+            .padding(
+                .horizontal,
+                Constants.cityListHorizontalPadding
+            )
+            .padding(
+                .top,
+                Constants.cityListTopPadding
+            )
+            .padding(
+                .bottom,
+                Constants.cityListBottomPadding
+            )
+        }
+    }
+
+    // MARK: - City Card
+
+    @ViewBuilder
+    private func cityCard(for city: NearbyCity) -> some View {
         RoundedRectangle(
             cornerRadius: Constants.cityCardCornerRadius
         )
         .fill(
-            .white.opacity(Constants.cityCardBackgroundOpacity)
+            .white.opacity(
+                Constants.cityCardBackgroundOpacity
+            )
         )
         .frame(
             height: Constants.cityCardHeight
@@ -160,7 +259,9 @@ struct CitySearchView: View {
                         )
                     )
                     .foregroundStyle(
-                        .white.opacity(Constants.countryNameOpacity)
+                        .white.opacity(
+                            Constants.countryNameOpacity
+                        )
                     )
             }
             .frame(
@@ -177,7 +278,9 @@ struct CitySearchView: View {
                 cornerRadius: Constants.cityCardCornerRadius
             )
             .stroke(
-                .white.opacity(Constants.cityCardStrokeOpacity),
+                .white.opacity(
+                    Constants.cityCardStrokeOpacity
+                ),
                 lineWidth: Constants.cityCardStrokeWidth
             )
         }
@@ -202,18 +305,29 @@ private enum Constants {
     static let cityListSpacing: CGFloat = 12
     static let cityListHorizontalPadding: CGFloat = 16
     static let cityListTopPadding: CGFloat = 12
-    static let cityListBottomPadding: CGFloat = 16
+    static let cityListBottomPadding: CGFloat = 100
 
-    // MARK: - Search Bar
+    // MARK: - Loading
 
-    static let searchBarContentSpacing: CGFloat = 12
-    static let searchIconSize: CGFloat = 20
-    static let searchTextFontSize: CGFloat = 18
-    static let searchBarInnerHorizontalPadding: CGFloat = 16
-    static let searchBarHeight: CGFloat = 56
-    static let searchBarBackgroundOpacity: Double = 0.4
-    static let searchBarCornerRadius: CGFloat = 16
-    static let searchBarOuterHorizontalPadding: CGFloat = 16
+    static let progressViewScale: CGFloat = 1.4
+
+    // MARK: - Error View
+
+    static let errorViewSpacing: CGFloat = 16
+    static let errorIconSize: CGFloat = 40
+    static let errorTextFontSize: CGFloat = 17
+    static let errorViewHorizontalPadding: CGFloat = 24
+
+    // MARK: - Retry Button
+
+    static let retryButtonFontSize: CGFloat = 16
+    static let retryButtonHorizontalPadding: CGFloat = 20
+    static let retryButtonHeight: CGFloat = 44
+    static let retryButtonCornerRadius: CGFloat = 12
+
+    // MARK: - Empty View
+
+    static let emptyTextFontSize: CGFloat = 18
 
     // MARK: - City Card
 
