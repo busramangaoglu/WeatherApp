@@ -26,30 +26,30 @@ enum WeatherType {
     var icon: String {
         switch self {
         case .sunny:
-            return "sun.max.fill"
+            return AppWeather.WeatherIcon.sunny
         case .partlyCloudy:
-            return "cloud.sun.fill"
+            return AppWeather.WeatherIcon.partlyCloudy
         case .cloudy:
-            return "cloud.fill"
+            return AppWeather.WeatherIcon.cloudy
         case .moon:
-            return "moon.fill"
+            return AppWeather.WeatherIcon.moon
         case .moonStars:
-            return "moon.stars.fill"
+            return AppWeather.WeatherIcon.moonStars
         }
     }
     
     var name: String {
         switch self {
         case .sunny:
-            return "Sunny"
+            return AppWeather.Weather.sunny
         case .partlyCloudy:
-            return "Partly Cloudy"
+            return AppWeather.Weather.partlyCloudy
         case .cloudy:
-            return "Cloudy"
+            return AppWeather.Weather.clody
         case .moon:
-            return "Moon"
+            return AppWeather.Weather.moon
         case .moonStars:
-            return "Moon Stars"
+            return AppWeather.Weather.moonstars
         }
     }
 }

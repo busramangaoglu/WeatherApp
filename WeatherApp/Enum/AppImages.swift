@@ -10,6 +10,7 @@ import Foundation
 enum AppImages {
     enum Search {
         static let magnifyingGlass = "magnifyingglass"
+        static let errorIcon = "exclamationmark.triangle.fill"
     }
     
     enum HourlyForecast {
@@ -25,5 +26,6 @@ enum AppImages {
         static let cloudFill = "cloud.fill"
         static let magnifyingglass = "magnifyingglass"
     }
+        
     
 }

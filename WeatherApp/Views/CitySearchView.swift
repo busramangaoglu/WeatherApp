@@ -126,7 +126,7 @@ struct CitySearchView: View {
             spacing: Constants.errorViewSpacing
         ) {
             Image(
-                systemName: "exclamationmark.triangle.fill"
+                systemName: AppImages.Search.errorIcon
             )
             .font(
                 .system(size: Constants.errorIconSize)
@@ -143,12 +143,12 @@ struct CitySearchView: View {
             Button {
                 Task {
                     await viewModel.fetchNearbyCities(
-                        latitude: 36.9081,
-                        longitude: 30.6956
+                        latitude: Constants.defaultLatitude,
+                        longitude: Constants.defaultLongitude
                     )
                 }
             } label: {
-                Text("Tekrar Dene")
+                Text(AppStrings.Search.retry)
                     .font(
                         .system(
                             size: Constants.retryButtonFontSize,
@@ -186,7 +186,7 @@ struct CitySearchView: View {
     private func emptyView() -> some View {
         Spacer()
 
-        Text("Şehir bulunamadı.")
+        Text(AppStrings.Search.cityNotFound)
             .font(
                 .system(size: Constants.emptyTextFontSize)
             )
@@ -204,7 +204,12 @@ struct CitySearchView: View {
                 spacing: Constants.cityListSpacing
             ) {
                 ForEach(viewModel.cities) { city in
-                    cityCard(for: city)
+                    NavigationLink {
+                        SelectedCityWeatherView(city: city)
+                    } label: {
+                        cityCard(for: city)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(
@@ -341,7 +346,13 @@ private enum Constants {
     static let cityCardContentHorizontalPadding: CGFloat = 24
     static let cityCardStrokeOpacity: Double = 0.25
     static let cityCardStrokeWidth: CGFloat = 1
+    
+    // MARK: - Default Location
+
+    static let defaultLatitude: Double = 36.9081
+    static let defaultLongitude: Double = 30.6956
 }
+
 
 #Preview {
     CitySearchView()

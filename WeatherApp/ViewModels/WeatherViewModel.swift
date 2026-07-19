@@ -24,6 +24,11 @@ final class WeatherViewModel: ObservableObject {
     ) async {
         isLoading = true
         errorMessage = nil
+        
+        defer {
+                   isLoading = false
+               }
+
 
         do {
             let response = try await weatherService.fetchWeather(

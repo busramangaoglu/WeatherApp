@@ -28,6 +28,8 @@ enum AppStrings {
     enum Search {
         static let matchingCities = "MATCHING CITIES"
         static let searchCity = "Search City"
+        static let retry = "Tekrar Dene"
+        static let cityNotFound = "Şehir bulunamadı."
     }
     
     enum errorMessages {
@@ -35,5 +37,7 @@ enum AppStrings {
         static let unknownPermissionStatus = "Unknown location permission status."
         static let unknownCity = "Unknown city"
     }
+    
+
     
 }
